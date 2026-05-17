@@ -1,0 +1,144 @@
+Metadata-Version: 2.4
+Name: pallas
+Version: 0.1.0
+Summary: Pallas — 知识工程工具集统一入口。一条命令拉通 ToolForge 工具匹配、OntoDerive 事实推导、Minerva 深度研究。
+Author: 夏明星
+License: MIT
+Project-URL: Homepage, https://github.com/your-org/pallas
+Project-URL: Repository, https://github.com/your-org/pallas
+Keywords: knowledge-engineering,derivation,research,toolforge,ontology,pipeline
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: ontoderive>=2.0.0
+Provides-Extra: full
+Requires-Dist: minerva>=0.11.0; extra == "full"
+Requires-Dist: sophia>=0.2.0; extra == "full"
+Requires-Dist: agora>=0.1.0; extra == "full"
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+
+# Pallas — 知识工程工具集统一入口
+
+> Pallas: Athena's spear. One command to wield them all.
+>
+> 一条命令拉通 ToolForge 工具匹配、OntoDerive 事实推导、Minerva 深度研究。
+
+[![Version](https://img.shields.io/badge/version-0.1.0-blue)]()
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10+-orange)]()
+
+---
+
+## 为什么需要 Pallas？
+
+你有 5 个强大的知识工程工具，但它们各自独立：
+
+```
+pip install sophia        # 研究范式引擎
+pip install minerva       # 深度研究引擎
+pip install agora         # MCP 服务路由
+pip install ontoderive    # 事实推导引擎
+```
+
+Pallas 将它们汇聚为一个入口：
+
+```
+pip install pallas[full]  # 一条命令安装全部
+pallas pipeline --goal "分析市场"  # 一条命令跑通全流程
+```
+
+## 快速开始
+
+```bash
+# 安装（核心：ToolForge + OntoDerive）
+pip install pallas
+
+# 全量安装（含 Minerva + Agora）
+pip install pallas[full]
+
+# 初始化项目
+pallas init my-project
+
+# 工具匹配
+pallas match "分析新能源汽车市场" --context "竞争,政策"
+
+# 带工具匹配的推导
+pallas derive --project my-project --with-tools --goal "分析市场"
+
+# 全流程：匹配 → 推导 → 检查
+pallas pipeline --goal "分析新能源汽车市场竞争格局" --project my-project
+
+# 启动服务
+pallas serve
+```
+
+## 命令参考
+
+| 命令 | 说明 | 示例 |
+|------|------|------|
+| `pallas match <goal>` | ToolForge 工具匹配 | `pallas match "产业园区规划" --inference-guide` |
+| `pallas derive` | OntoDerive 推导 | `pallas derive --project . --with-tools --goal "分析"` |
+| `pallas check` | 规约检查 | `pallas check --project .` |
+| `pallas pipeline` | 全流程 | `pallas pipeline --goal "目标" --project .` |
+| `pallas init <name>` | 初始化项目 | `pallas init my-analysis` |
+| `pallas serve` | 启动服务 | `pallas serve` |
+
+## 架构
+
+```
+pallas (统一入口, ~200行)
+  ├── ontoderive (ToolForge + 推导引擎)
+  ├── minerva (深度研究, 可选)
+  ├── sophia (范式引擎, 可选)
+  └── agora (MCP路由, 可选)
+```
+
+Pallas 不实现任何新能力——所有逻辑透传至底层工具。它是编排壳，不是新引擎。
+
+## 依赖关系
+
+```
+pallas
+├── ontoderive >= 2.0.0    (核心依赖, 必装)
+│   └── engine/toolforge/   (思维工具匹配)
+└── [full]
+    ├── minerva >= 0.11.0   (深度研究)
+    ├── sophia >= 0.2.0     (研究范式)
+    └── agora >= 0.1.0      (MCP路由)
+```
+
+## 生态全景
+
+```
+        ┌─────────────────────────┐
+        │         Pallas           │  ← 统一入口 (本项目)
+        │   pip install pallas     │
+        └───────────┬─────────────┘
+                    │
+    ┌───────────────┼───────────────────┐
+    │               │                   │
+    ▼               ▼                   ▼
+┌───────┐   ┌────────────┐   ┌──────────────┐
+│Minerva│   │ OntoDerive │   │Sophia / Agora│
+│深度研究│   │ 事实推导    │   │范式 / 路由    │
+└───────┘   └────────────┘   └──────────────┘
+    │               │               │
+    └───────────────┼───────────────┘
+                    │ MCP 协议
+            ┌───────▼───────┐
+            │     Agora      │
+            │  MCP Hub 路由   │
+            └───────────────┘
+```
+
+## License
+
+MIT

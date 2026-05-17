@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pallas"
+version = "0.1.0"
+description = "Pallas — 知识工程工具集统一入口。一条命令拉通 ToolForge 工具匹配、OntoDerive 事实推导、Minerva 深度研究。"
+authors = [{name = "夏明星"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["knowledge-engineering", "derivation", "research", "toolforge", "ontology", "pipeline"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "ontoderive>=2.0.0",
+]
+
+[project.optional-dependencies]
+full = [
+    "minerva>=0.11.0",
+    "sophia>=0.2.0",
+    "agora>=0.1.0",
+]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+pallas = "pallas.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/your-org/pallas"
+Repository = "https://github.com/your-org/pallas"
+
+[tool.setuptools.packages.find]
+where = ["src"]
