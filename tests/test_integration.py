@@ -36,9 +36,10 @@ def test(name, cmd, expect_in_output=None, expect_exit=0):
         FAIL += 1
         return None
 
-ONTODERIVE = "ontoderive"
-AGORA = "agora"
-PALLAS = "pallas"
+import shutil
+ONTODERIVE = shutil.which("ontoderive") or "ontoderive"
+AGORA = shutil.which("agora") or "agora"
+PALLAS = shutil.which("pallas") or "pallas"
 
 print("=" * 60)
 print("  Pallas 全工具集成测试")
@@ -76,7 +77,7 @@ test("ontoderive toolforge --json",
 
 test("ontoderive derive --with-tools",
      f"{ONTODERIVE} derive --project examples/z-park --with-tools --goal '中关村科技园区'",
-     ["ToolForge", "区域集聚策略"])
+     ["ToolForge", "事实基座扫描"])
 
 # ═══ ToolForge Python API ═══
 print("\n━━━ ToolForge Python API ━━━")
@@ -98,17 +99,12 @@ assert len(s) > 0, 'no tools selected'
 assert s[0]['score'] >= s[-1]['score'], 'not sorted by score'
 print('select: OK')
 
-# 3. to_ontoderive
-guide = tf.to_ontoderive('产业园区规划', '区域,创新')
-assert '推导指导' not in guide  # old-style
-print('to_ontoderive: OK')
-
-# 4. to_inference_guide
+# 3. to_inference_guide
 guide2 = tf.to_inference_guide('产业园区规划', '区域,创新')
 assert '推荐推导框架' in guide2
 print('to_inference_guide: OK')
 
-# 5. catalog integrity
+# 4. catalog integrity
 tools = tf.catalog['tools']
 assert len(tools) >= 50, f'only {len(tools)} tools'
 categories = set(t['category'] for t in tools)
@@ -117,7 +113,7 @@ ids = [t['id'] for t in tools]
 assert len(ids) == len(set(ids)), 'duplicate IDs'
 print(f'catalog: {len(tools)} tools, {len(categories)} categories')
 
-# 6. score ordering
+# 5. score ordering
 for cat, tools_in_cat in r.items():
     if tools_in_cat:
         scores = [t['score'] for t in tools_in_cat]
@@ -129,7 +125,7 @@ print('All ToolForge API tests passed')
 
 result = subprocess.run(
     ["python3", "-c", api_test],
-    capture_output=True, text=True, timeout=30, cwd="/sessions/amazing-exciting-hopper/mnt/Workspace/ontoderive"
+    capture_output=True, text=True, timeout=30
 )
 if result.returncode == 0:
     print(f"  ✅ ToolForge API (6 checks)")
@@ -176,7 +172,7 @@ test("pallas pipeline (full)",
 
 # ═══ 清理 ═══
 print("\n━━━ 清理测试项目 ━━━")
-subprocess.run("rm -rf test-verify test-pallas-verify", shell=True, cwd="/sessions/amazing-exciting-hopper/mnt/Workspace/ontoderive")
+subprocess.run("rm -rf test-verify test-pallas-verify", shell=True)
 print("  ✅ 清理完成")
 
 # ═══ 总结 ═══

@@ -11,10 +11,8 @@
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
-from pathlib import Path
 
 
 def check_dependency(module: str, install_hint: str) -> bool:
@@ -64,7 +62,7 @@ def cmd_pipeline(args):
     context = args.context or ""
 
     print(f"\n{'═' * 60}")
-    print(f"  Pallas 全流程推导")
+    print("  Pallas 全流程推导")
     print(f"  目标: {goal}")
     print(f"  项目: {project}")
     print(f"{'═' * 60}\n")
@@ -92,7 +90,7 @@ def cmd_pipeline(args):
     subprocess.run(cmd)
 
     print(f"\n{'═' * 60}")
-    print(f"  ✅ 全流程完成")
+    print("  ✅ 全流程完成")
     print(f"  推导指导: {project}/inferences/_toolforge_guide.md")
     print(f"{'═' * 60}\n")
 
@@ -101,7 +99,7 @@ def cmd_init(args):
     """Initialize a new project."""
     cmd = ["ontoderive", "init", args.name]
     subprocess.run(cmd)
-    print(f"\n💡 下一步:")
+    print("\n💡 下一步:")
     print(f"   pallas pipeline --goal '你的目标' --project {args.name}")
 
 
@@ -150,7 +148,7 @@ def build_parser() -> argparse.ArgumentParser:
     i.add_argument("name", help="项目名称")
 
     # serve
-    s = sub.add_parser("serve", help="启动 Agora MCP Hub (需 pallas[full])")
+    sub.add_parser("serve", help="启动 Agora MCP Hub (需 pallas[full])")
 
     return p
 
