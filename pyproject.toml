@@ -20,16 +20,14 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
-dependencies = [
-    "ontoderive>=2.0.0",
-]
+dependencies = []
 
 [project.optional-dependencies]
-full = [
-    "minerva>=0.11.0",
-    "sophia>=0.2.0",
-    "agora>=0.1.0",
-]
+ontoderive = ["ontoderive>=2.0.0"]
+agora = ["agora>=0.1.0"]
+minerva = ["minerva>=0.11.0"]
+sophia = ["sophia>=0.2.0"]
+full = ["ontoderive>=2.0.0", "minerva>=0.11.0", "sophia>=0.2.0", "agora>=0.1.0"]
 dev = ["pytest", "ruff"]
 
 [project.scripts]

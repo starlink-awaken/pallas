@@ -11,23 +11,29 @@
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
+from pathlib import Path
 
 
-def check_dependency(module: str, install_hint: str) -> bool:
-    """Check if optional dependency is available."""
-    try:
-        __import__(module)
-        return True
-    except ImportError:
-        print(f"⚠️  {install_hint} (pip install pallas[full])")
-        return False
+def _find_cli(cmd: str, pkg: str) -> str | None:
+    """查找 CLI 路径（非代码级耦合，运行时发现）。返回路径或 None。"""
+    path = shutil.which(cmd)
+    if path:
+        return cmd  # 在 PATH 中，用命令名即可
+    # 检查当前 venv 的 bin 目录
+    venv_bin = Path(sys.executable).parent
+    full = venv_bin / cmd
+    if full.exists():
+        return str(full)
+    print(f"⚠️  {cmd} CLI 未安装 → pip install pallas[{pkg}]")
+    return None
 
 
 def cmd_match(args):
     """Run ToolForge matching via ontoderive CLI."""
-    cmd = ["ontoderive", "toolforge", args.goal]
+    cmd = [_ontoderive_cmd, "toolforge", args.goal]
     if args.context:
         cmd.extend(["--context", args.context])
     if args.inference_guide:
@@ -39,7 +45,7 @@ def cmd_match(args):
 
 def cmd_derive(args):
     """Run OntoDerive derivation."""
-    cmd = ["ontoderive", "derive", "--project", args.project]
+    cmd = [_ontoderive_cmd, "derive", "--project", args.project]
     if args.with_tools:
         cmd.append("--with-tools")
         if args.goal:
@@ -51,7 +57,7 @@ def cmd_derive(args):
 
 def cmd_check(args):
     """Run OntoDerive protocol check."""
-    cmd = ["ontoderive", "check", "--project", args.project]
+    cmd = [_ontoderive_cmd, "check", "--project", args.project]
     subprocess.run(cmd)
 
 
@@ -69,7 +75,7 @@ def cmd_pipeline(args):
 
     # Step 1: ToolForge matching
     print("━ Step 1/3: ToolForge 工具匹配")
-    cmd = ["ontoderive", "toolforge", goal, "--inference-guide"]
+    cmd = [_ontoderive_cmd, "toolforge", goal, "--inference-guide"]
     if context:
         cmd.extend(["--context", context])
     subprocess.run(cmd)
@@ -86,7 +92,7 @@ def cmd_pipeline(args):
 
     # Step 3: Protocol check
     print("\n━ Step 3/3: 规约检查")
-    cmd = ["ontoderive", "check", "--project", project]
+    cmd = [_ontoderive_cmd, "check", "--project", project]
     subprocess.run(cmd)
 
     print(f"\n{'═' * 60}")
@@ -97,7 +103,7 @@ def cmd_pipeline(args):
 
 def cmd_init(args):
     """Initialize a new project."""
-    cmd = ["ontoderive", "init", args.name]
+    cmd = [_ontoderive_cmd, "init", args.name]
     subprocess.run(cmd)
     print("\n💡 下一步:")
     print(f"   pallas pipeline --goal '你的目标' --project {args.name}")
@@ -106,8 +112,8 @@ def cmd_init(args):
 def cmd_serve(args):
     """Start all services via Agora."""
     print("启动 Agora MCP Hub...")
-    print("(需要 pip install pallas[full] 包含 agora)")
-    if check_dependency("agora", "agora 未安装"):
+    print("(需要 pip install pallas[agora])")
+    if _find_cli("agora", "agora"):
         subprocess.run(["agora", "mcp"])
 
 
@@ -160,6 +166,13 @@ def main():
     if args.command is None:
         parser.print_help()
         return 0
+
+    # 运行时依赖检查：ontoderive CLI (非代码级耦合)
+    global _ontoderive_cmd
+    if args.command in ("match", "derive", "check", "pipeline", "init"):
+        _ontoderive_cmd = _find_cli("ontoderive", "ontoderive")
+        if not _ontoderive_cmd:
+            return 1
 
     commands = {
         "match": cmd_match,
