@@ -37,9 +37,24 @@ def test(name, cmd, expect_in_output=None, expect_exit=0):
         return None
 
 import shutil
-ONTODERIVE = shutil.which("ontoderive") or "ontoderive"
-AGORA = shutil.which("agora") or "agora"
-PALLAS = shutil.which("pallas") or "pallas"
+
+# 查找 ontoderive CLI：先搜 PATH，再回退到同级项目 venv
+def _find_cli(name):
+    # 优先检查 Workspace 同级项目 venv（避免 brew 安装的 stub）
+    script_dir = Path(__file__).resolve().parent.parent
+    workspace = script_dir.parent
+    venv_path = workspace / name / ".venv" / "bin" / name
+    if venv_path.exists():
+        return str(venv_path)
+    p = shutil.which(name)
+    if p:
+        return p
+    return name
+
+ONTODERIVE = _find_cli("ontoderive")
+AGORA = _find_cli("agora")
+PALLAS = _find_cli("pallas")
+ONTODERIVE_ENGINE = str(Path(__file__).resolve().parent.parent.parent / "ontoderive" / "engine")
 
 print("=" * 60)
 print("  Pallas 全工具集成测试")
@@ -83,8 +98,8 @@ test("ontoderive derive --with-tools",
 print("\n━━━ ToolForge Python API ━━━")
 
 api_test = """
-import sys; sys.path.insert(0, '.')
-from engine.toolforge import ToolForge
+import sys; sys.path.insert(0, 'ENGINE_PATH')
+from toolforge import ToolForge
 
 tf = ToolForge()
 
@@ -121,10 +136,10 @@ for cat, tools_in_cat in r.items():
 print('score_ordering: OK')
 
 print('All ToolForge API tests passed')
-"""
+""".replace('ENGINE_PATH', ONTODERIVE_ENGINE)
 
 result = subprocess.run(
-    ["python3", "-c", api_test],
+    [sys.executable, "-c", api_test],
     capture_output=True, text=True, timeout=30
 )
 if result.returncode == 0:
@@ -167,7 +182,7 @@ test("pallas check",
      ["规约检查", "/"])
 
 test("pallas pipeline (full)",
-     f"{PALLAS} pipeline --goal '中关村科技园区创新生态' --project examples/z-park --context '区域,创新'",
+     f"ONTODERIVE_LLM_BACKEND=none {PALLAS} pipeline --goal '中关村科技园区创新生态' --project examples/z-park --context '区域,创新'",
      ["全流程完成", "通过"])
 
 # ═══ 清理 ═══

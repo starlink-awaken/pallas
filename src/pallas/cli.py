@@ -27,6 +27,14 @@ def _find_cli(cmd: str, pkg: str) -> str | None:
     full = venv_bin / cmd
     if full.exists():
         return str(full)
+    # 回退：检查 Workspace 同级项目
+    try:
+        workspace = Path(__file__).resolve().parent.parent.parent.parent
+        fallback = workspace / cmd / ".venv" / "bin" / cmd
+        if fallback.exists():
+            return str(fallback)
+    except Exception:
+        pass
     print(f"⚠️  {cmd} CLI 未安装 → pip install pallas[{pkg}]")
     return None
 
@@ -83,7 +91,7 @@ def cmd_pipeline(args):
     # Step 2: Derivation
     print("\n━ Step 2/3: OntoDerive 事实推导")
     cmd = [
-        "ontoderive", "derive", "--project", project,
+        _ontoderive_cmd, "derive", "--project", project,
         "--with-tools", "--goal", goal,
     ]
     if context:

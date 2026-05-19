@@ -1,0 +1,8 @@
+digraph BayesianNetwork {
+  rankdir=LR;
+  node [shape=box];
+  "目标: 中关村科技园区创新生态" [label="目标: 中关村科技园区创新生态\n目标: 中关村科技园区创新生态\nP=0.85", fillcolor=blue, style=filled];
+  "上下文: 区域,创新" [label="上下文: 区域,创新\n上下文: 区域,创新\nP=0.85", fillcolor=blue, style=filled];
+  "匹配模式: tfidf" [label="匹配模式: tfidf\n匹配模式: tfidf\nP=0.85", fillcolor=blue, style=filled];
+  "推荐推导框架" [label="推荐推导框架\n推荐推导框架\nP=0.85", fillcolor=blue, style=filled];
+}

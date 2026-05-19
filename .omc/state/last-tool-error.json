@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\".venv/bin/pallas match \\\"测试\\\" 2>&1\",\"timeout\":10000,\"description\":\"Full pallas match error traceback\"}",
+  "error": "Exit code 1\nTraceback (most recent call last):\n  File \"/Users/xiamingxing/Workspace/pallas/.venv/bin/pallas\", line 6, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"/Users/xiamingxing/Workspace/pallas/src/pallas/cli.py\", line 185, in main\n    handler(args)\n    ~~~~~~~^^^^^^\n  File \"/Users/xiamingxing/Workspace/pallas/src/pallas/cli.py\", line 42, in cmd_match\n    subprocess.run(cmd)\n    ~~~~~~~~~~~~~~^^^^^\n  File \"/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/V...",
+  "timestamp": "2026-05-18T08:23:23.367Z",
+  "retry_count": 1
+}

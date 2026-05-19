@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-05-19T14:41:29.654044",
+  "checked_at": "2026-05-18T15:00:32.140028",
   "total": 13,
-  "passed": 8,
+  "passed": 9,
   "severities": {
-    "PASS": 8,
-    "WARN": 3,
+    "PASS": 9,
+    "WARN": 2,
     "ERROR": 1,
     "BLOCKER": 1
   },
@@ -17,9 +17,7 @@
       "detail": "事实文件: 0 个",
       "fixes": [
         "创建 facts/data.md 和 facts/policy.md"
-      ],
-      "file": "",
-      "line": 0
+      ]
     },
     {
       "protocol_id": "C-02",
@@ -28,10 +26,8 @@
       "severity": "PASS",
       "detail": "推论文件: 1 个",
       "fixes": [
-        "创建 inferences/contradictions.md"
-      ],
-      "file": "",
-      "line": 0
+        "创建 inferences/contradictions.md 和 inferences/derivations.md"
+      ]
     },
     {
       "protocol_id": "C-03",
@@ -39,21 +35,17 @@
       "passed": false,
       "severity": "ERROR",
       "detail": "方案文件: 0 个",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "fixes": []
     },
     {
       "protocol_id": "C-04",
       "name": "事实可追溯性",
       "passed": false,
       "severity": "WARN",
-      "detail": "事实0个: 推论引用0, 方案引用0 | 蕴含图: 4节点/0边, 深度0",
+      "detail": "事实0个: 推论引用0, 方案引用0",
       "fixes": [
-        "标注事实编号引用"
-      ],
-      "file": "",
-      "line": 0
+        "在推论和方案中标注事实编号引用"
+      ]
     },
     {
       "protocol_id": "C-05",
@@ -63,9 +55,7 @@
       "detail": "断言0个, 可追溯0, 率100%",
       "fixes": [
         "在含'应该/必须/需要'的句子旁标注事实编号引用"
-      ],
-      "file": "",
-      "line": 0
+      ]
     },
     {
       "protocol_id": "C-06",
@@ -75,29 +65,23 @@
       "detail": "预测断言0个, 可证伪0, 率100%",
       "fixes": [
         "为核心数字断言添加'如果X月后Y没发生则重新评估'条件"
-      ],
-      "file": "",
-      "line": 0
+      ]
     },
     {
       "protocol_id": "C-07",
-      "name": "实体ID合规性(v2.2 TypeValidator)",
-      "passed": false,
-      "severity": "WARN",
-      "detail": "v2前缀26种, 类型错误: 14个 [M-011('M-011' 无法识别ID前缀，已知前缀: ['CH-', 'CON-', 'D-F', 'DCH-', 'DOC-', 'ENG-', 'F', 'H', 'INF-', 'INF-V2-', 'IP', 'ORG-', 'P-F', 'PRJ-', 'RES-', 'ROL-', 'SEC-', 'T']); M-007('M-007' 无法识别ID前缀，已知前缀: ['CH-', 'CON-', 'D-F', 'DCH-', 'DOC-', 'ENG-', 'F', 'H', 'INF-', 'INF-V2-', 'IP', 'ORG-', 'P-F', 'PRJ-', 'RES-', 'ROL-', 'SEC-', 'T']); M-013('M-013' 无法识别ID前缀，已知前缀: ['CH-', 'CON-', 'D-F', 'DCH-', 'DOC-', 'ENG-', 'F', 'H', 'INF-', 'INF-V2-', 'IP', 'ORG-', 'P-F', 'PRJ-', 'RES-', 'ROL-', 'SEC-', 'T'])]",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "name": "实体ID合规性(v2扩展)",
+      "passed": true,
+      "severity": "PASS",
+      "detail": "异常格式: 0 个, v2标准前缀共26种",
+      "fixes": []
     },
     {
       "protocol_id": "C-08",
       "name": "推导引擎健康度",
       "passed": true,
       "severity": "PASS",
-      "detail": "引擎: check.py",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "detail": "引擎脚本存在: derive.py",
+      "fixes": []
     },
     {
       "protocol_id": "C-09",
@@ -105,19 +89,15 @@
       "passed": false,
       "severity": "WARN",
       "detail": "事实0个, 推论4个, 平均置信度0.85",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "fixes": []
     },
     {
       "protocol_id": "C-10",
       "name": "信息论层(KQI质量指数)",
       "passed": true,
       "severity": "PASS",
-      "detail": "KQI=0.2967, 熵=2.4394bits, 密度=0.00, 覆盖=100%",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "detail": "KQI=0.3475, 熵=1.8295bits, 密度=0.00, 覆盖=100%",
+      "fixes": []
     },
     {
       "protocol_id": "C-11",
@@ -125,9 +105,7 @@
       "passed": true,
       "severity": "PASS",
       "detail": "P=4 I=4.0 D=0.0 信号=6.0 状态=stable",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "fixes": []
     },
     {
       "protocol_id": "C-12",
@@ -135,9 +113,7 @@
       "passed": true,
       "severity": "PASS",
       "detail": "快照: 0F/3I/0E",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "fixes": []
     },
     {
       "protocol_id": "C-13",
@@ -145,9 +121,7 @@
       "passed": true,
       "severity": "PASS",
       "detail": "AST节点6个, 错误0个",
-      "fixes": [],
-      "file": "",
-      "line": 0
+      "fixes": []
     }
   ]
 }

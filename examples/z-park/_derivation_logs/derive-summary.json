@@ -1,7 +1,23 @@
 {
-  "derived_at": "2026-05-17T09:38:27.794125",
+  "derived_at": "2026-05-19T14:41:29.593346",
   "facts": 0,
   "entities": 0,
   "inferences": 0,
-  "scheme_files": 0
+  "scheme_files": 0,
+  "confidence_distribution": {
+    "mean": 0.85,
+    "min": 0.85,
+    "max": 0.85,
+    "count": 4
+  },
+  "entailment_graph": {
+    "nodes": 4,
+    "edges": 0,
+    "max_depth": 0,
+    "cycles": 0
+  },
+  "derivation_hints": [
+    "_toolforge_guide.md: 缺少 derives_from 声明",
+    "推导链深度仅0，推论间缺少递进关系"
+  ]
 }
